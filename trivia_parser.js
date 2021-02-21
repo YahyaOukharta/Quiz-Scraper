@@ -13,8 +13,9 @@ function decodeHtml(html)
     html = html.split("&lt;").join('<');
     html = html.split("&gt;").join('>');
     html = html.split("&apos;").join('"');
-    html = html.split("&quot;").join("\\'");
-    html = html.split('\'').join('\\\'');
+    html = html.split("&quot;").join("''");
+    html = html.split("'").join("''");
+    html = html.split('&#039;').join("''");
     console.error(html);
     //html = under.escape(html);
 
@@ -124,6 +125,10 @@ async function scrap(category, local_cat_id, cat_name)
 let cats = [9, 23, 21, 27, 12, 28, 31, 32, 18, 22, 17, 25, 26];
 let catnames = ["History","General knowledge","Sports","Animals","Entertainment: Music","Vehicles","Entertainment: Japanese Anime & Manga","Entertainment: Cartoon & Animations","Science: Computers","Geography","Science & Nature","Art","Celebrities"];
 let i = 1;
+
+console.log('DROP TABLE IF EXISTS "tbl_category"; CREATE TABLE IF NOT EXISTS "tbl_category" ("id"	INTEGER,"category"	TEXT,PRIMARY KEY("id" AUTOINCREMENT));');
+console.log('DROP TABLE IF EXISTS "questions_list";CREATE TABLE IF NOT EXISTS "questions_list" ("id"	INTEGER,"question"	TEXT,"option_a"	NUMERIC,"option_b"	TEXT,"option_c"	TEXT,"option_d"	BLOB,"right_answer"	NUMERIC,"level"	TEXT,"cate_id"	INTEGER,"que_solution"	TEXT,PRIMARY KEY("id"));');
+
 cats.forEach(function(c){
     scrap(c, i, catnames[i - 1]);
     i++;
